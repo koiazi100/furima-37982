@@ -11,14 +11,14 @@
 | first_name         | string     | null: false                    |
 | last_name_kana     | string     | null: false                    |
 | first_name_kana    | string     | null: false                    |
-| birthday           | string     | null: false                    |
-| items              | references | null: false, foreign_key: true |
+| birthday           | date       | null: false                    |
+
 
 
 
 ### Association
 
-- has_many :shipping_addresses
+
 - has_many :items
 - has_many :purchase_records
 
@@ -28,14 +28,18 @@
 | ----------- | ---------- | ----------------------------- |
 | title       | string     | null: false                   |
 | explanation | text       | null: false                   |
-| price       | string     | null: false                   |
+| price       | integer    | null: false                   |
 | user        | references | null: false, foreign_key: true|
+| category    | string     | null: false                   |
+| status      | string     | null: false                   |
+| fee_burden  | string     | null: false                   |
+| ship_day    | integer    | null: false                   |
+| ship_area   | string     | null: false                   |
 
 ### Association
 
-- belong_to: users
-- has_one  :purchase_records
-- belongs_to:shipping_addresses
+- belong_to: user
+- has_one  :purchase_record
 
 
 ## purchase_records テーブル
@@ -43,13 +47,13 @@
 | Column                     | Type       | Options                        |
 | -------------------------- | ---------- | ------------------------------ |
 | user                       | references | null: false, foreign_key: true |
-| items                      | references | null: false, foreign_key: true |
-| shipping_addresses         | references | null: false, foreign_key: true |
+| item                       | references | null: false, foreign_key: true |
+
 ### Association
 
 - belongs_to :user
 - belongs_to :items
-- belongs_to :shipping_addresses
+- has_one :shipping_address
 
 
 ## shipping_addresses テーブル
@@ -61,13 +65,11 @@
 | block                      | string     | null: false                    |
 | building                   | string     |                                |
 | phone_number               | string     | null: false                    |
-| user                       | references | null: false, foreign_key: true |
-| items                      | references | null: false, foreign_key: true |
-| shipping_addresses         | references | null: false, foreign_key: true |
+| shipping_address           | references | null: false, foreign_key: true |
+
 
 ### Association
 
-- belongs_to :user
-- has_many   :items
-- has_many   :purchase_records
+
+- belongs_to   :purchase_record
 
