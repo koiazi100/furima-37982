@@ -24,17 +24,17 @@
 
 ## items テーブル
 
-| Column      | Type       | Options                       |
-| ----------- | ---------- | ----------------------------- |
-| title       | string     | null: false                   |
-| explanation | text       | null: false                   |
-| price       | integer    | null: false                   |
-| user        | references | null: false, foreign_key: true|
-| category    | string     | null: false                   |
-| status      | string     | null: false                   |
-| fee_burden  | string     | null: false                   |
-| ship_day    | integer    | null: false                   |
-| ship_area   | string     | null: false                   |
+| Column        | Type       | Options                       |
+| ------------- | ---------- | ----------------------------- |
+| title         | string     | null: false                   |
+| explanation   | text       | null: false                   |
+| price         | integer    | null: false                   |
+| user          | references | null: false, foreign_key: true|
+| category_id   | integer    | null: false                   |
+| status_id     | integer    | null: false                   |
+| fee_burden_id | integer    | null: false                   |
+| ship_day_id   | integer    | null: false                   |
+| ship_area_id  | integer    | null: false                   |
 
 ### Association
 
@@ -52,7 +52,7 @@
 ### Association
 
 - belongs_to :user
-- belongs_to :items
+- belongs_to :item
 - has_one :shipping_address
 
 
@@ -61,11 +61,12 @@
 | Column                     | Type       | Options                        |
 | -------------------------- | ---------- | ------------------------------ |
 | postcode                   | string     | null: false                    |
+| prefecture_id              | integer    | null: false                    |
 | city                       | string     | null: false                    |
 | block                      | string     | null: false                    |
 | building                   | string     |                                |
 | phone_number               | string     | null: false                    |
-| shipping_address           | references | null: false, foreign_key: true |
+| purchase_record            | references | null: false, foreign_key: true |
 
 
 ### Association
