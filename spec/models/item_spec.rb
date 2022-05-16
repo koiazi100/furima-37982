@@ -69,20 +69,57 @@ RSpec.describe Item, type: :model do
       it 'priceが¥300以下では出品できない' do
         @item.price = '100'
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price must be greater than 300')
+        expect(@item.errors.full_messages).to include("Price must be greater than 299")
       end
 
       it 'priceが¥9999999以上では出品できない' do
-        @item.price = '10000000'
+        @item.price = '1000000000'
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price must be less than 9999999')
+        expect(@item.errors.full_messages).to include("Price must be less than 10000000")
       end
 
       it 'priceが半角数字以外では出品できない' do
         @item.price = '１０００'
         @item.valid?
-        expect(@item.errors.full_messages).to include('Price is not a number')
+        expect(@item.errors.full_messages).to include("Price is not a number")
       end
+
+      it 'カテゴリーに「---」が選択されている場合は出品できない' do
+        @item.category_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Category can't be blank")
+      end
+
+      it '商品の状態に「---」が選択されている場合は出品できない' do
+        @item.fee_burden_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Fee burden can't be blank")
+      end
+
+      it '配送料の負担に「---」が選択されている場合は出品できない' do
+        @item.ship_area_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Ship area can't be blank")
+      end
+
+      it '発送元の地域に「---」が選択されている場合は出品できない' do
+        @item.ship_day_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Ship day can't be blank")
+      end
+
+      it '発送までの日数に「---」が選択されている場合は出品できない' do
+        @item.status_id = '1'
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Status can't be blank")
+      end
+
+      it 'userが紐づいていないと出品できない' do
+        @item.user = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("User must exist")
+      end
+
     end
   end
 end
