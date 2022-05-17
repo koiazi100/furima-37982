@@ -1,13 +1,12 @@
 class ItemsController < ApplicationController
   before_action :move_to_sign_up, only: [:new, :edit]
-  
+
   def index
     @items = Item.order('created_at DESC')
   end
 
   def new
     @item = Item.new
-    
   end
 
   def create
@@ -25,9 +24,7 @@ class ItemsController < ApplicationController
 
   def edit
     @item = Item.find(params[:id])
-    unless current_user.id == @item.user.id 
-      redirect_to root_path
-    end
+    redirect_to root_path unless current_user.id == @item.user.id
   end
 
   def update
