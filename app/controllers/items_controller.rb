@@ -1,11 +1,13 @@
 class ItemsController < ApplicationController
+  before_action :move_to_sign_up, only: [:new, :edit]
+  
   def index
     @items = Item.order('created_at DESC')
   end
 
   def new
     @item = Item.new
-    redirect_to new_user_session_path unless user_signed_in?
+    
   end
 
   def create
@@ -21,10 +23,30 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
+  def edit
+    @item = Item.find(params[:id])
+    unless current_user.id == @item.user.id 
+      redirect_to root_path
+    end
+  end
+
+  def update
+    @item = Item.find(params[:id])
+    if @item.update(item_params)
+      render :show
+    else
+      render :edit
+    end
+  end
+
   private
 
   def item_params
     params.require(:item).permit([:image, :title, :price, :explanation, :category_id, :status_id, :fee_burden_id, :ship_area_id,
                                   :ship_day_id]).merge(user_id: current_user.id)
+  end
+
+  def move_to_sign_up
+    redirect_to new_user_session_path unless user_signed_in?
   end
 end
