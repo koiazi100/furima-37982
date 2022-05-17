@@ -15,7 +15,11 @@ class Item < ApplicationRecord
             numericality: { other_than: 1, message: "can't be blank" }
 
   extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to :ship_area, :category, :fee_burden, :ship_day, :status
+  belongs_to :ship_area
+  belongs_to :category
+  belongs_to :fee_burden
+  belongs_to :ship_day
+  belongs_to :status
 
   has_one_attached :image
   belongs_to :user
