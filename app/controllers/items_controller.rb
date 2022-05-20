@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :move_to_sign_up, only: [:new, :edit]
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  
   def index
     @items = Item.order('created_at DESC')
   end
