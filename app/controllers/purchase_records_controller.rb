@@ -1,12 +1,13 @@
 class PurchaseRecordsController < ApplicationController
   before_action :set_item, only: [:index, :create]
+  before_action :move_to_sign_up, only: [:index, :create]
 
   def index
-    if user_signed_in? && (current_user.id != @item.user.id) && @item.purchase_record.blank?
-      @purchase_record_shipping_address = PurchaseRecordShippingAddress.new
-    else
-      redirect_to root_path
-    end
+      if(current_user.id != @item.user.id) && @item.purchase_record.blank?
+        @purchase_record_shipping_address = PurchaseRecordShippingAddress.new
+      else
+        redirect_to root_path
+      end
   end
 
   def create
@@ -29,6 +30,10 @@ class PurchaseRecordsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def move_to_sign_up
+    redirect_to new_user_session_path unless user_signed_in?
   end
 
   def pay_item
