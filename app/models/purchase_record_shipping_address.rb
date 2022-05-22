@@ -1,19 +1,20 @@
 class PurchaseRecordShippingAddress
   include ActiveModel::Model
-  attr_accessor :user_id, :item_id, :postcode, :prefecture_id, :city, :block, :building, :phone_number, :purchase_record_id,
+  attr_accessor :user_id, :item_id, :postcode, :prefecture_id, :city, :block, :building, :phone_number, 
                 :token
 
-  validates :postcode, format: { with: /\A\d{3}-\d{4}\z/ }, allow_blank: true
-  validates :postcode, presence: true
-  validates :prefecture_id, presence: true, numericality: { other_than: 1, message: "can't be blank" }
-  validates :city, presence: true
-  validates :block, presence: true
-  validates :phone_number, format: { with: /\A\d{10,11}\z/ }, allow_blank: true
-  validates :phone_number, presence: true
-  validates :user_id, presence: true
-  validates :item_id, presence: true
-  validates :token, presence: true
-
+with_options presence: true do
+  validates :postcode
+  validates :prefecture_id, numericality: { other_than: 1, message: "can't be blank" }
+  validates :city
+  validates :block
+  validates :phone_number
+  validates :user_id
+  validates :item_id
+  validates :token
+end
+validates :postcode, format: { with: /\A\d{3}-\d{4}\z/ }, allow_blank: true
+validates :phone_number, format: { with: /\A\d{10,11}\z/ }, allow_blank: true
   def save
     purchase_record = PurchaseRecord.create(user_id: user_id, item_id: item_id)
     shipping_addresses = ShippingAddress.create(postcode: postcode, prefecture_id: prefecture_id, city: city, block: block,

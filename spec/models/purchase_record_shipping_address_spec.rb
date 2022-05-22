@@ -30,7 +30,7 @@ RSpec.describe PurchaseRecordShippingAddress, type: :model do
         expect(@purchase_record_shipping_address.errors.full_messages).to include('Postcode is invalid')
       end
       it 'prefectureを選択していないと保存できないこと' do
-        @purchase_record_shipping_address.prefecture_id = ''
+        @purchase_record_shipping_address.prefecture_id = '1'
         @purchase_record_shipping_address.valid?
         expect(@purchase_record_shipping_address.errors.full_messages).to include("Prefecture can't be blank")
       end
@@ -49,8 +49,18 @@ RSpec.describe PurchaseRecordShippingAddress, type: :model do
         @purchase_record_shipping_address.valid?
         expect(@purchase_record_shipping_address.errors.full_messages).to include("Phone number can't be blank")
       end
-      it 'Phone_numberが半角で10桁以上11桁以内でないと保存できないこと' do
+      it 'Phone_numberが半角でないと保存できないこと' do
+        @purchase_record_shipping_address.phone_number = '１２３４５６７８９０'
+        @purchase_record_shipping_address.valid?
+        expect(@purchase_record_shipping_address.errors.full_messages).to include('Phone number is invalid')
+      end
+      it 'Phone_numberが10桁以上でないと保存できないこと' do
         @purchase_record_shipping_address.phone_number = '1234567'
+        @purchase_record_shipping_address.valid?
+        expect(@purchase_record_shipping_address.errors.full_messages).to include('Phone number is invalid')
+      end
+      it 'Phone_numberが11桁以内でないと保存できないこと' do
+        @purchase_record_shipping_address.phone_number = '123456789123'
         @purchase_record_shipping_address.valid?
         expect(@purchase_record_shipping_address.errors.full_messages).to include('Phone number is invalid')
       end
