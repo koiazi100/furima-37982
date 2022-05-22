@@ -2,7 +2,7 @@ class PurchaseRecordsController < ApplicationController
   before_action :set_item, only: [:index,:create]
   
   def index
-    if (user_signed_in?) && (current_user.id =! @item.user.id) && (@item.purchase_record.blank?)
+    if (user_signed_in?) && (current_user.id != @item.user.id) && (@item.purchase_record.blank?)
     @purchase_record_shipping_address = PurchaseRecordShippingAddress.new
     else
       redirect_to root_path
