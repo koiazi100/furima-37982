@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe PurchaseRecordShippingAddress, type: :model do
-  
   describe '商品の購入' do
     before do
-      
       item = FactoryBot.create(:item)
       user = FactoryBot.create(:user)
       @purchase_record_shipping_address = FactoryBot.build(:purchase_record_shipping_address, item_id: item.id, user_id: user.id)
@@ -29,13 +27,12 @@ RSpec.describe PurchaseRecordShippingAddress, type: :model do
       it 'postcodeが半角のハイフンを含んだ正しい形式でないと保存できないこと' do
         @purchase_record_shipping_address.postcode = '1234567'
         @purchase_record_shipping_address.valid?
-        expect(@purchase_record_shipping_address.errors.full_messages).to include("Postcode is invalid")
+        expect(@purchase_record_shipping_address.errors.full_messages).to include('Postcode is invalid')
       end
       it 'prefectureを選択していないと保存できないこと' do
         @purchase_record_shipping_address.prefecture_id = ''
         @purchase_record_shipping_address.valid?
         expect(@purchase_record_shipping_address.errors.full_messages).to include("Prefecture can't be blank")
-                                                                                   
       end
       it 'cityが空だと保存できないこと' do
         @purchase_record_shipping_address.city = ''
@@ -55,14 +52,14 @@ RSpec.describe PurchaseRecordShippingAddress, type: :model do
       it 'Phone_numberが半角で10桁以上11桁以内でないと保存できないこと' do
         @purchase_record_shipping_address.phone_number = '1234567'
         @purchase_record_shipping_address.valid?
-        expect(@purchase_record_shipping_address.errors.full_messages).to include("Phone number is invalid")
+        expect(@purchase_record_shipping_address.errors.full_messages).to include('Phone number is invalid')
       end
       it 'tokenが空だと保存できないこと' do
         @purchase_record_shipping_address.token = ''
         @purchase_record_shipping_address.valid?
         expect(@purchase_record_shipping_address.errors.full_messages).to include("Token can't be blank")
       end
-      
+
       it 'userが紐付いていないと保存できないこと' do
         @purchase_record_shipping_address.user_id = nil
         @purchase_record_shipping_address.valid?
